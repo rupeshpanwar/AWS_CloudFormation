@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parametes:
+  keyName:
+    Description: ec2 key name
+    Type: AWS::EC2::KeyPair::KeyName
+  envName:
+    Description: select the env
+    Type: String
+    Default: dev
+    Allowedvalues:
+      - dev
+      - prod
+Mappings:
+   regionMapping:
+     us-east-2:
+        amid: ami-0cd3dfa4e37921605
+     us-west-1:
+        amid: ami-0cd3dfa4e37921605
+    
+   envMapping:
+     dev:
+       instanceType: t2.micro
+     prod:
+       instanceType: t2.nano
+
+
+Resources:
+  InstanceID:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - regionMapping
+        - !Ref 'AWS::Region'
+        - amid
+      InstanceType: !FindInMap
+        - envMapping
+        - !Ref envName
+        - instanceType
+      KeyName: !Ref keyName
