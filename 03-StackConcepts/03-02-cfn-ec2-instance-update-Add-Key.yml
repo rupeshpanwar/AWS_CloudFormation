@@ -6,3 +6,4 @@ Resources:
       ImageId: ami-01aab85a5e4a5a0fe
       InstanceType: t2.micro
       KeyName: cfn-key-1
+
